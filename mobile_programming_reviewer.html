@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mobile Programming Interactive Reviewer</title>
+<style>
+:root{--g:#146b43;--g2:#0d5132;--bg:#f4f7f5;--card:#fff;--ink:#18211c;--muted:#68736c;--ok:#e7f6ec;--bad:#fdeaea;--line:#dbe4de;--gold:#e4b84b}*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}header{background:linear-gradient(135deg,var(--g2),var(--g));color:#fff;padding:28px 20px}header .wrap,.wrap{max-width:980px;margin:auto}h1{margin:0 0 6px;font-size:clamp(25px,4vw,38px)}header p{margin:0;opacity:.9}.panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;margin:18px 0;box-shadow:0 5px 18px #173a2410}.tabs{display:flex;gap:8px;flex-wrap:wrap}.tab,button,select{font:inherit}.tab,button{border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px 14px;cursor:pointer}.tab.active,.primary{background:var(--g);color:#fff;border-color:var(--g)}.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}.controls select{padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.stat{background:#f7faf8;border-radius:12px;padding:10px;text-align:center}.stat b{display:block;font-size:20px;color:var(--g)}#quiz{display:grid;gap:14px}.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 3px 12px #173a240b}.meta{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em}.q h3{font-size:17px;line-height:1.45;margin:8px 0 13px}.opts{display:grid;gap:8px}.opt{display:flex;gap:10px;text-align:left;width:100%;align-items:flex-start}.opt .letter{font-weight:800;color:var(--g);min-width:22px}.opt.correct{background:var(--ok);border-color:#82c99a}.opt.wrong{background:var(--bad);border-color:#e6a1a1}.opt:disabled{cursor:default;color:inherit}.feedback{display:none;margin-top:12px;padding:11px 12px;border-radius:10px;background:#f4f7f5;line-height:1.45}.feedback.show{display:block}.source{font-size:12px;color:var(--muted);margin-top:7px}.empty{text-align:center;padding:30px;color:var(--muted)}footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 40px}.badge{display:inline-block;background:#edf5f0;color:var(--g);padding:4px 8px;border-radius:999px;margin-left:6px;font-size:11px}@media(max-width:620px){.stats{grid-template-columns:repeat(2,1fr)}.q{padding:14px}}
+</style>
+</head><body>
+<header><div class="wrap"><h1>Mobile Programming Reviewer</h1><p>Modules 1–4 • works completely offline • instant answer checking</p></div></header>
+<main class="wrap">
+<section class="panel">
+<div class="tabs"><button class="tab active" data-mode="existing">Existing Questions Only</button><button class="tab" data-mode="all">Existing + New Questions</button></div>
+<div class="controls"><label>Module <select id="module"><option value="all">All Modules</option><option value="1">Module 1 — Introduction to Android</option><option value="2">Module 2 — Android Studio</option><option value="3">Module 3 — Kotlin</option><option value="4">Module 4 — Components & Resources</option></select></label><button id="shuffle">Shuffle</button><button id="reset">Reset Answers</button></div>
+<div class="stats"><div class="stat"><b id="total">0</b>Questions</div><div class="stat"><b id="answered">0</b>Answered</div><div class="stat"><b id="correct">0</b>Correct</div><div class="stat"><b id="pct">0%</b>Score</div></div>
+</section>
+<div id="quiz"></div>
+</main><footer>Reviewer content is based on the provided Mobile Programming Modules 1–4. Generated questions are clearly labeled.</footer>
+<script>
+const E=(module,q,o,a,ex)=>({module,q,o,a,ex,kind:'existing'}), G=(module,q,o,a,ex)=>({module,q,o,a,ex,kind:'generated'});
+const questions=[
+E(1,'Android is proprietary and only Google is allowed to use it.',['True','False'],1,'False. The module describes Android OS as open and free.'),
+E(1,'Multi-window support was introduced in Android ________.',['Pie','Nougat','KitKat','Marshmallow'],1,'Android 7.0 Nougat introduced native split-screen and multi-window mode.'),
+E(1,'One of the major updates on Android Pie is ________.',['PIP Mode','Material Design','Fingerprint Authentication','Adaptive Brightness'],3,'Android 9.0 Pie includes Adaptive Brightness, which modifies brightness based on user habits.'),
+E(1,'The top layer of the Android architecture is ________. Native and third-party applications are installed on this layer.',['Android Runtime','Platform Libraries','Application Framework','Applications'],3,'Applications are listed as the top layer in the module’s Android architecture stack.'),
+E(1,'The first release of Android with a dessert codename is ________.',['Android 1.2','Android 1.8','Android 1.5','Android 1.0'],2,'Android 1.5 Cupcake was the first release with an official codename.'),
+E(3,'In Kotlin, code statements must end with a semicolon (;).',['True','False'],1,'False. Kotlin statements do not have to end with a semicolon.'),
+E(3,'How can you create a variable with the floating number 2.8?',['float num = 2.8','double num = 2.8','num = 2.8 float','val num = 2.8'],3,'Kotlin can infer the type, so val num = 2.8 is valid.'),
+E(3,'How do you insert a single-line comment in Kotlin code?',['% this is my comment','// this is my comment','# this is my comment','-- this is my comment'],1,'Kotlin uses // for single-line comments.'),
+E(3,'Which of the following is used to create an array in Kotlin?',['[]','array()','arrayOf()','new array()'],2,'The module demonstrates arrays using arrayOf(...).'),
+E(3,'What is the output of: println(5 > 3 && 5 < 10)?',['null','undefined','false','true'],3,'Both comparisons are true, and true && true evaluates to true.'),
+E(4,'Manifest is a file that stores the configuration of your application.',['True','False'],0,'True. The module describes Manifest as the configuration file for the application.'),
+E(4,'_______ class contains resource IDs for all the resources available in your res/ directory.',['xml','R','ID','res'],1,'The generated R class contains resource IDs for resources in res/.'),
+E(4,'Given <string name="myapp">MyApp</string>, how do you access this string resource in an XML file?',['R.id.myapp','@string/myapp','@+id/myapp','R.string.myapp'],1,'In XML, a string resource is referenced with @string/resource_name.'),
+E(4,'All application components in an Android application can be observed in the MainActivity.java file.',['True','False'],1,'False. Android applications can contain multiple component classes and the manifest describes components and their interaction.'),
+E(4,'_______ are additional files and static content that your code uses, such as bitmaps and layout definitions.',['Receivers','Activities','Resources','Services'],2,'Resources are additional files and static content used by application code.'),
+E(3,'In Kotlin, array indexes start with:',['nil','1','0','-1'],2,'Kotlin arrays are zero-indexed, so the first element is at index 0.'),
+E(3,'Type the keyword used to declare a function in Kotlin.',['func','fun','function','def'],1,'The fun keyword is used to declare a Kotlin function.'),
+E(3,'In Kotlin, it is possible to inherit class properties and functions from one class to another.',['True','False'],0,'True. The module demonstrates inheritance using an open superclass and a subclass.'),
+E(3,'In fun myFunction(fname: String), what is fname?',['inherit','parameter','range','override'],1,'fname is a parameter of the function.'),
+E(3,'What is the correct way to create an object called myObj of the class MyClass?',['MyClass.new myObj','myObj : MyClass()','val myObj = MyClass()','myObj = new MyClass()'],2,'Kotlin instantiates a class without the new keyword: val myObj = MyClass().'),
+E(3,'In Kotlin, how can you create a variable with the numeric value 5?',['val num = 5','num = .5','int num = 5','num = 5 int'],0,'val num = 5 is valid Kotlin and uses type inference.'),
+E(3,'What is a correct syntax to output text in Kotlin?',['Console.WriteLine("Hello Gwapo");','println("Hello Gwapo")','cout << "Hello Gwapo";','System.out.println("Hello Gwapo");'],1,'Kotlin uses println(...) to print a line.'),
+
+G(1,'Android is a mobile operating system based on which kernel?',['Windows NT','Linux','Darwin','FreeBSD'],1,'The module defines Android as a mobile operating system based on Linux.'),
+G(1,'Which company originally developed Android?',['Google','Android Inc.','JetBrains','Oracle'],1,'The module states that Android was originally developed by Android Inc.'),
+G(1,'In what year did Google purchase Android Inc.?',['2003','2005','2007','2009'],1,'The module states that Google purchased Android Inc. in 2005.'),
+G(1,'Android 6.0 is known by which codename?',['Lollipop','Marshmallow','Nougat','Oreo'],1,'Android 6.0 is Marshmallow.'),
+G(1,'Which Android version introduced Picture-in-Picture support according to the module?',['Nougat','Oreo','Pie','Lollipop'],1,'Android 8.0 Oreo lists PIP (Picture-in-Picture) support.'),
+G(1,'Which feature is associated with Android 6.0 Marshmallow?',['Fingerprint authentication','Native split-screen','Adaptive brightness','PIP mode'],0,'Marshmallow lists fingerprint authentication among its features.'),
+G(1,'Which Android version introduced a new system-wide dark theme/mode in the module?',['Android 9','Android 10','Android 11','Android 12'],1,'Android 10 lists a new system-wide dark theme/mode.'),
+G(1,'Which layer is at the bottom of the Android architecture stack shown in the module?',['Applications','Android Runtime','Platform Libraries','Linux Kernel'],3,'The module’s architecture stack places Linux Kernel at the bottom.'),
+G(2,'Which two prerequisites are listed for the course setup?',['JDK and Android Studio','Python and VS Code','Node.js and Eclipse','Git and IntelliJ only'],0,'The module lists JDK and Android Studio as prerequisites.'),
+G(2,'When creating the sample Android project, which project template does the module tell you to select?',['Basic Activity','Empty Activity','Navigation Drawer Activity','No Activity'],1,'The project creation steps specify Empty Activity.'),
+G(2,'Which Android Studio area is where you create and modify code?',['Status bar','Editor window','Tool window bar','Navigation bar'],1,'The editor window is where code is created and modified.'),
+G(2,'Which Android Studio element displays project/IDE status, warnings, or messages?',['Toolbar','Status bar','Editor window','Navigation bar'],1,'The status bar displays project and IDE status plus warnings or messages.'),
+G(2,'To run an app on a real Android device, what must be enabled according to the module?',['Airplane mode','USB Debugging','Battery Saver','NFC'],1,'The module instructs users to enable USB Debugging after enabling Developer options.'),
+G(2,'Where do you go to create an emulator device?',['SDK Manager','Device Manager','Project Structure','Logcat'],1,'The module says to navigate to Device Manager and select Create Device.'),
+G(3,'Kotlin was released in 2016 by which company?',['Google','JetBrains','Microsoft','Oracle'],1,'The module describes Kotlin as released in 2016 by JetBrains.'),
+G(3,'Which keyword creates a mutable variable in Kotlin?',['val','var','let','mut'],1,'var creates a mutable reference that can be modified after initialization.'),
+G(3,'Which keyword creates an immutable variable reference in Kotlin?',['val','var','constvar','fixed'],0,'val creates an immutable reference after initialization.'),
+G(3,'Which function is needed to execute a basic Kotlin program in the module?',['start()','run()','main()','init()'],2,'The module states that main() is needed to execute a program.'),
+G(3,'Which syntax begins a multi-line comment in Kotlin?',['//','/*','#*','<!--'],1,'Kotlin multi-line comments use /* ... */.'),
+G(3,'Which Kotlin expression is presented as an alternative for multiple conditional branches?',['switch','when','case','match'],1,'The module introduces the when expression.'),
+G(3,'Which of these loop types appears in the Kotlin module?',['repeat-until only','while, do-while, and for','goto loop','foreach keyword only'],1,'The module lists while, do-while, and for loops.'),
+G(3,'Which declaration correctly creates an array in the module’s loop example?',['val nums = arrayOf(1, 5, 10, 15, 20)','int[] nums = {1,5,10}','nums = new Array()','array nums = [1,5,10]'],0,'The module uses arrayOf(...) to create the array.'),
+G(3,'To allow a Kotlin class to be inherited from, which keyword is shown before the superclass declaration?',['public','open','extends','super'],1,'The inheritance example declares open class MyParentClass.'),
+G(3,'What are the two constructor categories identified for Kotlin in the module?',['Public and private','Primary and secondary','Static and dynamic','Parent and child'],1,'The Kotlin-vs-Java table and OOP slides identify primary and secondary constructors.'),
+G(3,'What Android Studio shortcut is shown for Convert Java File to Kotlin File?',['Ctrl+K','Ctrl+Alt+Shift+K','Alt+Enter','Ctrl+Shift+J'],1,'The module gives Ctrl+Alt+Shift+K as the conversion shortcut.'),
+G(4,'Which component represents a single screen with a user interface?',['Service','Activity','Content Provider','Broadcast Receiver'],1,'An Activity represents a single screen with a user interface.'),
+G(4,'Which component performs long-running operations in the background?',['Service','Activity','View','Layout'],0,'A Service runs in the background to perform long-running operations.'),
+G(4,'Which component responds to broadcast messages from applications or the system?',['Content Provider','Broadcast Receiver','Activity','Fragment'],1,'Broadcast Receivers respond to broadcast messages.'),
+G(4,'Which component supplies data from one application to others on request?',['Content Provider','Service','Intent','View'],0,'A Content Provider supplies application data to others on request.'),
+G(4,'Which additional component is described as “messages wiring components together”?',['Views','Intents','Fragments','Layouts'],1,'The module describes Intents as messages wiring components together.'),
+G(4,'Where are Android resources maintained in a project?',['Only in src/','Under res/ subdirectories','Only in AndroidManifest.xml','Only in build.gradle'],1,'The module says resources are maintained in subdirectories under res/.'),
+G(4,'Which resource directory stores XML files defining user interface layouts?',['drawable/','layout/','values/','raw/'],1,'UI layout XML files are stored in res/layout/ and accessed through R.layout.'),
+G(4,'Which resource directory commonly contains strings, integers, and colors?',['values/','font/','menu/','xml/'],0,'The values/ directory contains simple values such as strings, integers, and colors.'),
+G(4,'Which class is used to access drawable resources in code?',['R.layout','R.drawable','R.menu','R.raw'],1,'Resources in res/drawable/ are accessed through R.drawable.'),
+G(4,'How is a color resource named opaque_red referenced in an XML layout?',['R.color.opaque_red','@color/opaque_red','@+color/opaque_red','color:opaque_red'],1,'The XML example uses @color/opaque_red.'),
+G(4,'Which directory contains arbitrary files kept in their raw form?',['raw/','values/','animator/','font/'],0,'The raw/ directory stores arbitrary files in raw form.'),
+G(4,'Files in assets/ are different from res/raw/ because assets files ________.',['always become R.raw IDs','are not given a resource ID','must be XML','can only contain images'],1,'The module notes that files in assets/ are not given resource IDs and are read using AssetManager.')
+];
+let mode='existing', order=[...questions.keys()], answered=new Map();
+const quiz=document.getElementById('quiz'), mod=document.getElementById('module');
+function filtered(){return order.map(i=>[i,questions[i]]).filter(([i,x])=>(mode==='all'||x.kind==='existing')&&(mod.value==='all'||String(x.module)===mod.value));}
+function render(){const list=filtered();quiz.innerHTML='';document.getElementById('total').textContent=list.length;if(!list.length){quiz.innerHTML='<div class="empty">No questions match this filter.</div>';stats();return}list.forEach(([idx,x],n)=>{const d=document.createElement('section');d.className='q';d.innerHTML=`<div class="meta">Question ${n+1} • Module ${x.module} <span class="badge">${x.kind==='existing'?'Existing':'Generated'}</span></div><h3>${esc(x.q)}</h3><div class="opts"></div><div class="feedback"></div>`;const opts=d.querySelector('.opts');x.o.forEach((label,j)=>{const b=document.createElement('button');b.className='opt';b.innerHTML=`<span class="letter">${String.fromCharCode(65+j)}.</span><span>${esc(label)}</span>`;b.onclick=()=>answer(idx,j,d);opts.appendChild(b)});if(answered.has(idx)) paint(idx,answered.get(idx),d);quiz.appendChild(d)});stats()}
+function answer(idx,j,d){if(answered.has(idx))return;answered.set(idx,j);paint(idx,j,d);stats()}
+function paint(idx,j,d){const x=questions[idx],bs=[...d.querySelectorAll('.opt')];bs.forEach((b,k)=>{b.disabled=true;if(k===x.a)b.classList.add('correct');else if(k===j)b.classList.add('wrong')});const f=d.querySelector('.feedback');f.className='feedback show';f.innerHTML=`<b>${j===x.a?'Correct!':'Not quite.'}</b> ${esc(x.ex)}<div class="source">${x.kind==='existing'?'From your existing quiz set':'New practice question based on the provided module'}</div>`}
+function stats(){const visible=new Set(filtered().map(([i])=>i));let a=0,c=0;answered.forEach((v,k)=>{if(visible.has(k)){a++;if(v===questions[k].a)c++}});document.getElementById('answered').textContent=a;document.getElementById('correct').textContent=c;document.getElementById('pct').textContent=a?Math.round(c/a*100)+'%':'0%'}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{document.querySelectorAll('.tab').forEach(z=>z.classList.remove('active'));t.classList.add('active');mode=t.dataset.mode;render()});mod.onchange=render;document.getElementById('reset').onclick=()=>{answered.clear();render()};document.getElementById('shuffle').onclick=()=>{for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]]}render()};render();
+</script></body></html>
