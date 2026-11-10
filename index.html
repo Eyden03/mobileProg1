@@ -7,7 +7,43 @@
 :root{--g:#146b43;--g2:#0d5132;--bg:#f4f7f5;--card:#fff;--ink:#18211c;--muted:#68736c;--ok:#e7f6ec;--bad:#fdeaea;--line:#dbe4de;--gold:#e4b84b}*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}header{background:linear-gradient(135deg,var(--g2),var(--g));color:#fff;padding:28px 20px}header .wrap,.wrap{max-width:980px;margin:auto}h1{margin:0 0 6px;font-size:clamp(25px,4vw,38px)}header p{margin:0;opacity:.9}.panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;margin:18px 0;box-shadow:0 5px 18px #173a2410}.tabs{display:flex;gap:8px;flex-wrap:wrap}.tab,button,select{font:inherit}.tab,button{border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px 14px;cursor:pointer}.tab.active,.primary{background:var(--g);color:#fff;border-color:var(--g)}.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}.controls select{padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.stat{background:#f7faf8;border-radius:12px;padding:10px;text-align:center}.stat b{display:block;font-size:20px;color:var(--g)}#quiz{display:grid;gap:14px}.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 3px 12px #173a240b}.meta{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em}.q h3{font-size:17px;line-height:1.45;margin:8px 0 13px}.opts{display:grid;gap:8px}.opt{display:flex;gap:10px;text-align:left;width:100%;align-items:flex-start}.opt .letter{font-weight:800;color:var(--g);min-width:22px}.opt.correct{background:var(--ok);border-color:#82c99a}.opt.wrong{background:var(--bad);border-color:#e6a1a1}.opt:disabled{cursor:default;color:inherit}.feedback{display:none;margin-top:12px;padding:11px 12px;border-radius:10px;background:#f4f7f5;line-height:1.45}.feedback.show{display:block}.source{font-size:12px;color:var(--muted);margin-top:7px}.empty{text-align:center;padding:30px;color:var(--muted)}footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 40px}.badge{display:inline-block;background:#edf5f0;color:var(--g);padding:4px 8px;border-radius:999px;margin-left:6px;font-size:11px}@media(max-width:620px){.stats{grid-template-columns:repeat(2,1fr)}.q{padding:14px}}
 </style>
 <style>.question-text{font-size:17px;line-height:1.45;margin:8px 0 13px;font-weight:700;white-space:pre-line}.code-block{margin:14px 0;padding:14px 16px;background:#f6f8f7;border:1px solid var(--line);border-radius:10px;font:14px/1.55 ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;font-weight:400;white-space:pre-wrap;overflow:auto}</style>
-</head><body>
+
+<script>
+  (function() {
+    // 1. Change 'your_secret_password' to whatever password you want to give your users
+    const PASSWORD = 'eyden'; 
+    
+    // 2. Check if they already entered it correctly before
+    if (sessionStorage.getItem('site_auth') !== PASSWORD) {
+      let authenticated = false;
+      
+      while (!authenticated) {
+        const userInput = prompt('This deployment is protected. Please enter the password:');
+        
+        // If they click cancel, don't let them see the site
+        if (userInput === null) {
+          document.documentElement.innerHTML = '<h1>Access Denied</h1>';
+          window.stop();
+          break;
+        }
+        
+        if (userInput === PASSWORD) {
+          // Remember their session so they don't get prompted on every single page refresh
+          sessionStorage.setItem('site_auth', PASSWORD);
+          authenticated = true;
+        } else {
+          alert('Incorrect password. Please try again.');
+        }
+      }
+    }
+  })();
+</script>
+
+</head>
+
+
+
+<body>
 <header><div class="wrap"><h1>Mobile Programming Reviewer</h1><p>Modules 1–7 • works completely offline • instant answer checking</p></div></header>
 <main class="wrap">
 <section class="panel">
